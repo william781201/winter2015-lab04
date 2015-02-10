@@ -247,7 +247,9 @@ class MY_Model extends CI_Model implements Active_Record {
         if (($what == 'period') && ($which < 9)) {
             $this->db->where($what, $which); // special treatment for period
         } else
+        {
             $this->db->where($what, $which);
+        }            
         $query = $this->db->get($this->_tableName);
         return $query->result();
     }
@@ -258,9 +260,13 @@ class MY_Model extends CI_Model implements Active_Record {
         $query = $this->db->get($this->_tableName);
         $result = $query->result();
         if (count($result) > 0)
+        {
             return $result[0]->num;
+        }            
         else
+        {
             return null;
+        }            
     }
 
 }
@@ -285,7 +291,9 @@ class MY_Model2 extends MY_Model {
         $this->db->where($this->_keyField2, $key2);
         $query = $this->db->get($this->_tableName);
         if ($query->num_rows() < 1)
+        {
             return null;
+        }            
         return $query->row();
     }
 

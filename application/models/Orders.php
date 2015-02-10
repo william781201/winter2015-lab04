@@ -35,16 +35,16 @@ class Orders extends MY_Model {
         // the autoloaded orderitems is in the scope of the controller
         // we want our own access
         $CI = &get_instance();
-        $CI->load->model('orderitems');
+        $CI->load->model('Orderitems');
         
         // get all the items in this order
-        $items = $this->orderitems->some('code', $num);
+        $items = $this->Orderitems->some('code', $num);
         
         // and add em up
         $result = 0;
         foreach ($items as $item)
         {
-            $menuitem = $this->menu->get($item->item);
+            $menuitem = $this->Menu->get($item->item);
             $result = $item->quantity * $menuitem->price;
         }
         
