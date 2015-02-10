@@ -14,14 +14,43 @@ class Orders extends MY_Model {
 
     // add an item to an order
     function add_item($num, $code) {
-        
+        $CI = &get_instance();
+        if ($CI->Orderitems->exists($num, $code))
+        {
+            $record = $CI->Orderitems->get($num, $code);
+            $record->quantity++;
+            $CI->Orderitems->update($record);
+        } else 
+        {
+            $record = $CI->Orderitems->create();
+            $record->order = $num;
+            $record->item = $code;
+            $record->quantity = 1;
+            $CI->Orderitems->add($record);
+        }
     }
 
     // calculate the total for an order
     function total($num) {
-        return 0.0;
+        // the autoloaded orderitems is in the scope of the controller
+        // we want our own access
+        $CI = &get_instance();
+        $CI->load->model('orderitems');
+        
+        // get all the items in this order
+        $items = $this->orderitems->some('code', $num);
+        
+        // and add em up
+        $result = 0;
+        foreach ($items as $item)
+        {
+            $menuitem = $this->menu->get($item->item);
+            $result = $item->quantity * $menuitem->price;
+        }
+        
+        return $result;
     }
-
+    
     // retrieve the details for an order
     function details($num) {
         
