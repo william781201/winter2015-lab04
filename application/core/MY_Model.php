@@ -326,7 +326,9 @@ class MY_Model2 extends MY_Model {
         $this->db->where($this->_keyField2, $key2);
         $query = $this->db->get($this->_tableName);
         if ($query->num_rows() < 1)
+        {
             return false;
+        }            
         return true;
     }
 
