@@ -109,7 +109,7 @@ class Order extends Application {
     }
 
     // proceed with checkout
-    function proceed($order_num) {
+    function commit($order_num) {
         //FIXME
         if (!$this->Orders->validate($order_num))
         {
