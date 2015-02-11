@@ -38,7 +38,7 @@ class Orders extends MY_Model {
         $CI->load->model('Orderitems');
         
         // get all the items in this order
-        $items = $this->Orderitems->some('code', $num);
+        $items = $this->Orderitems->some('order', $num);
         
         // and add em up
         $result = 0;
@@ -64,7 +64,18 @@ class Orders extends MY_Model {
     // validate an order
     // it must have at least one item from each category
     function validate($num) {
-        return false;
+        $CI = &get_instance();
+        $items = $CI->Orderitems->group($num);
+        $gotem = array();
+        if (count($items) > 0)
+        {
+            foreach ($items as $item)
+            {
+                $menu = $CI->Menu->get($item->item);
+                $gotem[$menu->category] = 1;
+            }
+        }
+        return isset($gotem['m']) && isset($gotem['d']) && isset($gotem['s']);
     }
 
 }
