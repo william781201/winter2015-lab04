@@ -169,7 +169,9 @@ class MY_Model extends CI_Model implements Active_Record {
         $names = $this->db->list_fields($this->_tableName);
         $object = new StdClass;
         foreach ($names as $name)
+        {
             $object->$name = "";
+        }            
         return $object;
     }
 
@@ -191,7 +193,9 @@ class MY_Model extends CI_Model implements Active_Record {
         $this->db->where($this->_keyField, $key);
         $query = $this->db->get($this->_tableName);
         if ($query->num_rows() < 1)
+        {
             return null;
+        }            
         return $query->row();
     }
 
